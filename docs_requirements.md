@@ -191,3 +191,50 @@ uv run premier rank-per-round 3 --participants <entry_id> <entry_id>
 - Participants with equal points share the same rank (1, 2, 2, 4, ...)
 - Participants with no data for a round are left out of that round's file and reported in the console
 - Rounds with no data for any participant are skipped
+
+## ✅ FRQ10
+**Captain points per participant**
+
+### Input
+- List of participants (optional, defaults to all participants in the config)
+- Gameweek(s) (optional, defaults to every gameweek with picks)
+
+### Processing
+- Iterate through each participant and each selected gameweek
+- Find the participant's captain for the gameweek (the player flagged `isCaptain`)
+- If the captain did not play, FPL passes the armband to the vice-captain: the flagged captain has a multiplier of 0, so the player who actually received the multiplier is used instead
+- `captainBasePoints` is the captain's gameweek points (`totalPoints`), `captainPoints` is that value times the real `multiplier` (2, or 3 with the triple captain chip)
+
+### Output
+- One CSV file: `database/captains/captain_points.csv`
+- When specific gameweeks are selected the file is named `captain_points_gw{N}[_{M}...].csv`, so a partial run never overwrites the full file
+- CSV output format:
+  ```
+  gameweek,participant,captain,captainBasePoints,multiplier,captainPoints
+  ```
+
+### Sorting Criteria
+1. `gameweek` (ascending)
+2. `captainPoints` (descending)
+3. `participant` (alphabetical)
+
+### Example Output
+```
+gameweek,participant,captain,captainBasePoints,multiplier,captainPoints
+1,Miguel,João Pedro,11,2,22
+1,Edgardo,Raya,6,2,12
+1,Sebastian,Tzolis,6,2,12
+...
+```
+
+### Usage
+```
+uv run premier captain-points
+uv run premier captain-points --gameweeks 3 5
+uv run premier captain-points --participants <entry_id> <entry_id>
+```
+
+### Notes
+- Column names use camelCase, consistent with the other outputs
+- `multiplier` is kept as a column instead of assuming "double", because a triple captain gameweek (e.g. Kirby, gameweek 3) is x3
+- Participants or gameweeks without picks are skipped and reported in the console

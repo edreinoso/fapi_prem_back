@@ -91,7 +91,18 @@ uv run premier rank-per-round 6 --participants <id> ... # only some participants
 - A participant's positions file is regenerated automatically if it is missing or does not contain the round yet
 - **Maps to Requirements: FRQ9 (Rank participants per round)**
 
-### 8. Player Analysis
+### 8. Captain Points
+```bash
+uv run premier captain-points                                # every participant, every gameweek
+uv run premier captain-points --gameweeks 3 5                # only some gameweeks
+uv run premier captain-points --participants <id> ...        # only some participants
+```
+- For each participant and gameweek, reports the captain, their base points, the multiplier and the points the captain generated
+- If the captain did not play, the vice-captain who received the armband is used; a triple captain gameweek shows a multiplier of 3
+- Output: `database/captains/captain_points.csv` (`captain_points_gw<N>.csv` when gameweeks are selected)
+- **Maps to Requirements: FRQ10 (Captain points per participant)**
+
+### 9. Player Analysis
 ```bash
 uv run premier players
 ```
@@ -138,6 +149,10 @@ uv run premier players
 - **Mapped to**: `rank-per-round` script (ranks participants by their starting XI total per round)
 - **Output**: `database/rank/gwN.csv` (`rank,participant,totalPoints`)
 
+### FRQ10: Captain points per participant
+- **Mapped to**: `captain-points` script (captain, base points, multiplier and resulting points per gameweek)
+- **Output**: `database/captains/captain_points.csv` (`gameweek,participant,captain,captainBasePoints,multiplier,captainPoints`)
+
 ## Directory Structure
 - `src/premier/` - Source code directory containing all Python scripts
 - `config/` - Configuration files (`participants.toml`)
@@ -151,3 +166,4 @@ uv run premier players
   - `positions/` - Position distribution files
   - `formations/` - Formation and points per gameweek
   - `rank/` - Participant ranking per round (`gwN.csv`)
+  - `captains/` - Captain points per participant and gameweek
