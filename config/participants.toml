@@ -1,0 +1,18 @@
+[participants]
+# List of FPL entry IDs with optional names/descriptions
+# Format: entry_id = "name"
+8388589 = "Edgardo"
+7571821 = "Bryan"
+6385584 = "Kirby"
+5253078 = "Gordo Juan"
+5185269 = "Miguel"
+4992896 = "Luifer"
+8363929 = "El Mono"
+5280004 = "Zavarce"
+8436439 = "Sebastian"
+8651203 = "Gian"
+
+[export]
+# Default gameweek range
+gw_start = 1
+gw_end = 5

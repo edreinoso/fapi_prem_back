@@ -1,0 +1,20 @@
+[project]
+name = "premier"
+version = "0.1.0"
+description = "Premier Fantasy League tools (backend scripts)"
+readme = "README.md"
+authors = [
+    { name = "Ed Reinoso", email = "ed.reinoso@vodafoneziggo.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.28.0",
+    "tomli>=2.0.0",
+]
+
+[project.scripts]
+premier = "premier:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
